@@ -55,30 +55,44 @@ app.post("/insercao-concluida", function(req,res){
 })
 
 //_____________________
-//2 - ROTAS DOS PACOTES
-
-//ROTA 2.1 - PÁGINA PRINCIPAL DOS PACOTES
+//2.1 - ROTAS PRINCIPAIS
+//INICIO
+app.use("/inicio",function(req,res,next){
+    res.sendFile(__dirname+"/Site/Pagina Inicial/home.html");
+})
+//PAGINA DOS PRODUTOS
+app.use("/produtos",function(req,res,next){
+    res.sendFile(__dirname+"/Site/Produtos/caixões.html");
+})
+//PAGINA LISTANDO TODOS OS PACOTES
 app.use("/pacotes",function(req,res,next){
     res.sendFile(__dirname+"/Site/pacotes/pacote.html");
 })
+//PAGINA SOBRE NOS
+app.use("/sobre-nos",function(req,res,next){
+    res.sendFile(__dirname+"/Site/Sobre nós/sobre.html");
+})
 
 //ROTA 2.2 - PÁGINA DE PACOTE DE CAIXAO
-
+app.use("/pacote-caixao",function(req,res,next){
+    res.sendFile(__dirname+"/Site/Serviços/Pacote_Caixão/caixao_novo.html");
+})
 
 //ROTA 2.3 - PÁGINA DE PACOTE DE URNA
 app.use("/pacote-urna",function(req,res,next){
-   res.sendFile(__dirname+"/Site/Serviços/Pacote_Urna/urna_novo.html");
+    res.sendFile(__dirname+"/Site/Serviços/Pacote_Urna/urna_novo.html");
 })
 
 //ROTA 2.4 - PÁGINA DE PACOTE DE CAPSULA
-
+app.use("/pacote-capsula",function(req,res,next){
+    res.sendFile(__dirname+"/Site/Serviços/Pacote_Capsula/capsula_novo.html");
+})
 
 //ROTA 2.5 - INSERCAO NO BD DA COMPRA DO PACOTE
 app.post("/pedido-concluido", function(req,res){
     //console.log(req.body.localFale);
     insercaoDB.insercao_compras.create({
         nome_comprador: req.body.nome_comprador,
-        item_pedido: req.body.item_pedido,
         telefone: req.body.telefone_comprador,
         email: req.body.email_comprador,
     }).then(function(){
