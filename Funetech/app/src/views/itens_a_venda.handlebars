@@ -1,0 +1,43 @@
+{{!-- testando 123</h5> --}}
+
+<div class="titulo">
+      <h2>Itens Disponíveis</h2>
+      <p>Aqui você pode ver os produtos e serviços disponíveis para compra.</p>
+</div>
+
+<div class="pre-container">
+
+    <h3>Produtos</h3><hr>
+    {{#each produtos}}
+        <div class="container">
+            {{!-- Nome: {{nome_comprador}}<br> --}}
+            <h2>{{nome_item}}</h2>
+            <img class="imagem-produto" src={{caminho_da_imagem}} alt="imagem" width="200"/>
+            <br><span class="preco"><b>{{preco}}</b></span>
+            <p>
+                {{quantidade_disponivel}} disponíveis.
+            </p>
+
+            <br>
+            <button type="button" class="button">Adicionar ao carrinho</button>
+        </div>
+    {{/each}}
+
+    <br>
+    <h3>Serviços</h3><hr>
+    {{#each servicos}}
+        <div class="container">
+            {{!-- Nome: {{nome_comprador}}<br> --}}
+            <h2>{{nome_item}}</h2>
+            <img class="imagem-produto" src={{caminho_da_imagem}} alt="imagem" width="200"/>
+            <br><span class="preco"><b>{{preco}}</b></span>
+            <p>
+                {{quantidade_disponivel}} disponíveis.
+            </p>
+
+            <br>
+            <button type="button" class="button">Adicionar ao carrinho</button>
+        </div>
+    {{/each}}
+
+</div>
