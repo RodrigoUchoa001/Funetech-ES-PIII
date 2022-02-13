@@ -123,3 +123,33 @@ input[type=submit]:hover, .botao:hover, button:hover{
 .preco{
     font-size: 40px;
 }
+
+/* MEMORIAIS */
+.tituloMemoriais p {
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center 
+}
+
+.conteudo {
+    text-align: center;
+}
+
+.memoriais {
+    max-width: auto;
+    background-color: white;
+    width: auto;
+    display: inline-block;  
+    margin-bottom: 3rem;
+    margin-top: 1rem;
+    margin-left: 3rem;
+    margin-right: 1rem;
+    border-radius: 9px;
+    border: 1px solid lightgray;
+    padding: 30px;   
+ }
+
+ .memoriais p {
+     font-size: 15px;
+ }
