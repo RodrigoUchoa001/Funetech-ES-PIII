@@ -4,9 +4,19 @@ const app=express();
 
 //CONFIGURACAO DO HANDLEBARS
 // const handlebars = require("express-handlebars");
-import { engine } from 'express-handlebars';
+const { engine } = require('express-handlebars');
 
-app.engine('handlebars', engine());
+//MOMENT PARA TRABALHAR COM DATAS
+const moment = require('moment');
+
+app.engine('handlebars', engine({
+    defaultLayout: 'main', 
+    helpers: {
+        formatDate: (date) => {
+            return moment(date).format('DD/MM/YYYY')
+        }
+    }
+}))
 app.set('view engine', 'handlebars');
 
 /*IMPORTANTE: POR ALGUM MOTIVO SE ABAIXO ESTIVER APENAS
@@ -14,7 +24,7 @@ app.set('view engine', 'handlebars');
 PRA FUNCIONAR ENTAO É NECESSARIO COLOCAR ABAIXO './src/views'
 POIS ASSIM ELE PEGARÁ DO LOCAL CERTO :'Funetech/app/src/views'*/
 
-app.set('views', './src/views');
+app.set('views', './views');
 
 //CONFIGURACAO DO BODY PARSER
 const bodyParser=require("body-parser");
@@ -44,7 +54,7 @@ app.use(express.static(path.join(__dirname,'_js')));
 //ROTA 1.1 - PÁGINA DE CADASTRO DO MEMORIAL
 app.use("/formulario-memorial",function(req,res){
     res.sendFile(__dirname+"/Site/Produtos/Criar Memorial/cadastro_memorial.html");
-})
+});
 
 
 //ROTA 1.2 - INSERCAO NO BD DO CADASTRO DO MEMORIAL
@@ -69,7 +79,7 @@ app.post("/insercao-concluida", function(req,res){
     }).catch(function(erro){
         res.send("valores não foram inseridos <br>"+erro);
     })
-})
+});
 
 //_____________________
 //2 - ROTAS DOS PACOTES
@@ -77,27 +87,27 @@ app.post("/insercao-concluida", function(req,res){
 //ROTA 2.1 - PÁGINA PRINCIPAL DOS PACOTES
 app.use("/pacotes",function(req,res,next){
     res.sendFile(__dirname+"/Site/pacotes/pacote.html");
-})
+});
 
 //ROTA 2.2 - PÁGINA DE PACOTE DE CAIXAO
 app.use("/pacote-caixao",function(req,res,next){
     res.sendFile(__dirname+"/Site/Serviços/Pacote_Caixão/caixao_novo.html");
-})
+});
 
 //ROTA 2.3 - PÁGINA DE PACOTE DE URNA
 app.use("/pacote-urna",function(req,res,next){
    res.sendFile(__dirname+"/Site/Serviços/Pacote_Urna/urna_novo.html");
-})
+});
 
 //ROTA 2.4 - PÁGINA DE PACOTE DE CAPSULA
 app.use("/pacote-capsula",function(req,res,next){
     res.sendFile(__dirname+"/Site/Serviços/Pacote_Capsula/capsula_novo.html");
-})
+});
 
 //ROTA 2.5 - INSERCAO NO BD DA COMPRA DO PACOTE
 app.post("/pedido-concluido", function(req,res){
     //console.log(req.body.localFale);
-    insercaoDB.insercao_compras.create({
+    insercaoDB.insercao_produtos.create({
         nome_comprador: req.body.nome_comprador,
         item_pedido: req.body.item_pedido,
         telefone: req.body.telefone_comprador,
@@ -111,7 +121,7 @@ app.post("/pedido-concluido", function(req,res){
     }).catch(function(erro){
         res.send("valores não foram inseridos <br>"+erro);
     })
-})
+});
 
 //_________________________________________________________
 //3 - ROTAS DOS PRODUTOS E PACOTES DISPONIVEIS VINDOS DO BD
@@ -143,16 +153,18 @@ app.get("/itens-a-venda", function(req, res) {
                 }
             );
         })
+    })    
+});
+
+
+//____________________
+//4 ROTA DOS MEMORIAIS
+app.get("/memoriais", function(req, res) {
+    insercaoDB.insercao_memorial.findAll().then(function(memorial){
+        res.render('memoriais', {memorial: memorial.map(memorial => memorial.toJSON())});
     })
-
-    
-
-    
-
-    
-})
-
+});  
+       
 app.listen(3000, () => {
     console.log("Online na porta 3000\n");
-})
-
+});
